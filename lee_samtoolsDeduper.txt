@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+###################################
+# Pre-processing step before input into deduper script
+# Manual http://www.htslib.org/doc/samtools-1.1.html
+# Change input and sorted.sam outputnames of files
+# Will create a temporary file (temp.bam) that you can ignore
+###################################
+
+# Run this code separately for each input file
+# Delete temp.bam between each run
+
+module purge
+ml easybuild
+ml samtools/1.5
+
+cd /projects/bgmp/jlee33/bi624_gen_lab/3_deduper/data
+
+# Convert to BAM file
+samtools view -S -b Dataset3.sam > temp.bam
+
+# Sort by chrom
+samtools sort temp.bam -o temp.bam
+		#-o outputname
+
+# (for debugging)View output
+# samtools view temp.bam
+
+# Convert to SAM
+####NEED TO CONVERT BACK TO SAM FILE
+samtools view -h -O sam -o Dataset3_sorted.sam temp.bam
+		#-h include header in SAM output, -O output type
+		
